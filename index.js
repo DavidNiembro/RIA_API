@@ -28,6 +28,7 @@ app.get('/api/imagerecognition', (req, res) => {
     res.status(400).send(JSON.stringify({"error" : 'Invalid request, fileName must be provided'}));
   }
 
+  // http://localhost:2000/api/imagerecognition?bucket=rekognition.actualit.info&filename=Emirates-A380.jpg
   var params = {
     Image: {
       S3Object: {
