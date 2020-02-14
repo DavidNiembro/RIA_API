@@ -63,7 +63,7 @@ app.get('/api/imagerecognition', (req, res) => {
     Image: {
       S3Object: {
         Bucket: bucket,
-        Name:  filename
+        Name: filename
       }
     },
     MaxLabels: 1,
