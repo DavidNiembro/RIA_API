@@ -3,10 +3,6 @@
  * @author Dardan Iljazi, David Niembro and Jérémy Gfeller
 */
 
-/**
- * @namespace 
-*/
-
 var AWS = require("aws-sdk");
 var express = require("express");
 var app = express();
@@ -20,12 +16,7 @@ const port = 2000;
 */
 
 app.get('/api/imagerecognition', (req, res) => {
-  /** Credentials for amazon */
   AWS.config.loadFromPath("./config.json");
-
-  /** 
-   * Responses are in json format
-  */
   res.setHeader('Content-Type', 'application/json');
 
   /**
@@ -72,9 +63,8 @@ app.get('/api/imagerecognition', (req, res) => {
   var rekognition = new AWS.Rekognition();
   rekognition.detectLabels(params, function(err, data) {
     if (err) console.log(err, err.stack);
-    // an error occurred
     else res.send(JSON.stringify(data));
-  }); // successful response
+  });
 });
 
 app.listen(port, () => console.log(`App listening on port http://localhost:${port}/api/imagerecognition`))
