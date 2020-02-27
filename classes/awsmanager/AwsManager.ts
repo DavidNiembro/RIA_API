@@ -1,4 +1,4 @@
-import ErrorManager = require('./classes/awsmanager/AwsManager');
+let ErrorManager = require('./classes/errors/ErrorsManager');
 let AWS = require("aws-sdk");
 
 
@@ -6,9 +6,9 @@ class AwsManager {
     private bucket: string;
     private filename: string;
 
+    private rekognition : AWS.Rekognition;
     // Will contain the parameters to pass to rekognition
     private awsRekognitionAwsParams: object;
-    private rekognition : AWS.Rekognition;
 
     constructor(bucketName: string, fileName: string) {
         bucketName == null ? ErrorManager.log('[WARNING]: bucketName is null');
@@ -29,7 +29,7 @@ class AwsManager {
                 ErrorManager.log(err, err.stack);
             }
 
-            return JSON.stringify(data);
+            return data;
         });
     }
 
