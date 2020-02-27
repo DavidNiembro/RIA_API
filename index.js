@@ -1,5 +1,5 @@
 /**
- * @file Rekognition in a image with Amazon 
+ * @file Recognition in a image with Amazon 
  * @author Dardan Iljazi, David Niembro and Jérémy Gfeller
 */
 
