@@ -1,10 +1,11 @@
 /**
- * @file Recognition in a image with Amazon 
+ * @file Recognition in a image with Amazon
  * @author Dardan Iljazi, David Niembro and Jérémy Gfeller
-*/
+ */
 
-var AWS = require("aws-sdk");
 var express = require("express");
+var AwsLabelDetectorImpl = require("./src/models/AwsLabelDetectorImpl");
+
 var app = express();
 const port = 2000;
 
@@ -13,58 +14,53 @@ const port = 2000;
  * @param {Object} req - Information on the request
  * @param {Object} res - Information on the response for the request
  * @returns {json}
-*/
+ */
 
-app.get('/api/imagerecognition', (req, res) => {
-  AWS.config.loadFromPath("./config.json");
-  res.setHeader('Content-Type', 'application/json');
+app.get("/api/imagerecognition", (req, res) => {
+  let awsDetector = new AwsLabelDetectorImpl();
+  res.setHeader("Content-Type", "application/json");
 
   /**
    * Recup the bucket in S3
    * @returns {string}
-  */
+   */
   var bucket = req.query.bucket;
 
-  if (bucket == null)
-  {
-    console.error('[WARNING]: bucket is empty');
-    res.status(400).send(JSON.stringify({"error" : 'Invalid request, bucket must be provided'}));
+  if (bucket == null) {
+    console.error("[WARNING]: bucket is empty");
+    res
+      .status(400)
+      .send(
+        JSON.stringify({ error: "Invalid request, bucket must be provided" })
+      );
   }
 
   /**
    * Recup the file in the request
    * @returns {string}
-  */
+   */
   var filename = req.query.filename;
 
-  if (filename === null)
-  {
-    console.error('[WARNING]: fileName is empty');
-    res.status(400).send(JSON.stringify({"error" : 'Invalid request, fileName must be provided'}));
+  if (filename === null) {
+    console.error("[WARNING]: fileName is empty");
+    res
+      .status(400)
+      .send(
+        JSON.stringify({ error: "Invalid request, fileName must be provided" })
+      );
   }
+  let filepath = "./emiratesa380.jpg";
+  awsDetector.MakeAnalysisRequestLocal(filepath, 1, function(data) {
+    console.log(data);
+  });
 
-  /**
-   * Params for the request to Rekognition service from Amazon 
-   * @param {string} Bucket - Get the name of the bucket
-   * @param {string} Name - Get the name of the image
-   * @param {number} MaxLabels - Show only one metadata in the response 
-   * @param {number} MinConfidence - Show only rows who's higher than a pourcentage 
-  */
-  var params = {
-    Image: {
-      S3Object: {
-        Bucket: bucket,
-        Name: filename
-      }
-    },
-    MaxLabels: 1,
-    MinConfidence: 90
-  };
-  var rekognition = new AWS.Rekognition();
-  rekognition.detectLabels(params, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else res.send(JSON.stringify(data));
+  awsDetector.MakeAnalysisRequest(bucket, filename, 1, function(data) {
+    res.send(data);
   });
 });
 
-app.listen(port, () => console.log(`App listening on port http://localhost:${port}/api/imagerecognition`))
+app.listen(port, () =>
+  console.log(
+    `App listening on port http://localhost:${port}/api/imagerecognition`
+  )
+);
