@@ -24,4 +24,39 @@
    node index.js
    ```
 
+
+
+#### Générer la documentation 
+
+1. Installation de ESDoc 
+
+   ```bash
+   npm install --save-dev esdoc esdoc-standard-plugin
+   ```
+
+2. Création d'un fichier .esdoc.json à la racine du projet
+
+   ```bash
+   touch .esdoc.json 
+   nano .esdoc.json 
+   ```
+
+   1. Contenu du fichier 
+
+   ```bash
+   {
+     "source": "./src",
+     "destination": "./docs",
+     "plugins": [
+       {"name": "esdoc-standard-plugin"}
+     ]
+   }
+   ```
+
+3. Génération de la documentation 
+
+   ```bash
+   ./node_modules/.bin/esdoc
+   ```
+
 Link : http://52.28.87.45/?bucket=aws.rekognition.actualit.info&filename=Emirates-A380.jpg
