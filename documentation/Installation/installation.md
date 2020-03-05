@@ -14,3 +14,20 @@ Les dépendences utilisées dans le projets
 - aws-sdk : ^2.617.0,
 - express : ^4.17.1
 
+
+## Installation du projet
+
+1. Clone du projet dans le dossier voulu
+
+    ```git clone https://github.com/DavidNiembro/RIA_API.git```
+
+2. Se rendre dans le projet et installer les dépendances
+
+    ```
+    cd RIA_API 
+    yarn install
+    ```
+3. Lancer le serveur nodejs
+    ```
+    node ./index.js
+    ```
