@@ -60,3 +60,4 @@
    ```
 
 Link : http://52.28.87.45/?bucket=aws.rekognition.actualit.info&filename=Emirates-A380.jpg
+Link : http://localhost:2000/api/imagerecognition?bucket=aws.rekognition.actualit.info&filename=emiratesa380.jpg
