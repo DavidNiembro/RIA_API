@@ -17,23 +17,26 @@ Les dépendences utilisées dans le projets
 
 ## Installation du projet
 
-1. Clone du projet dans le dossier voulu
+1. Cloner le projet dans le dossier voulu
 
-    ```git clone https://github.com/DavidNiembro/RIA_API.git```
+    ```bash
+    git clone https://github.com/DavidNiembro/RIA_API.git
+    ```
 
 2. Se rendre dans le projet et installer les dépendances
 
-    ```
+    ```bash
     cd RIA_API 
     yarn install
     ```
+
 3. Lancer le serveur nodejs
-    ```
+    ```bash
     node ./index.js
     ```
 ## Utiliser l'API
 
 Rendez-vous sur un navigateur avec le lien suivant 
-```
+```bash
 http://localhost:2000/api/imagerecognition?bucket=NOM_DU_BUCKET&filename=NOM_DE_L_IMAGE
 ```
