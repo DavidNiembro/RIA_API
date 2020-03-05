@@ -31,3 +31,9 @@ Les dépendences utilisées dans le projets
     ```
     node ./index.js
     ```
+## Utiliser l'API
+
+Rendez-vous sur un navigateur avec le lien suivant 
+```
+http://localhost:2000/api/imagerecognition?bucket=NOM_DU_BUCKET&filename=NOM_DE_L_IMAGE
+```
