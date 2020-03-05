@@ -1,0 +1,62 @@
+
+
+  AWSRekognitionTests
+    âˆš [BUCKET] should be equal to the rekognitionJsonResult.json file (476ms)
+InvalidImageFormatException: Request has invalid image format
+    at Request.extractError (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\protocol\json.js:51:27)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:106:20)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:78:10)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:683:14)
+    at Request.transition (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:22:10)
+    at AcceptorStateMachine.runTo (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:14:12)
+    at C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:26:10
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:38:9)
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:685:12)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:116:18)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:78:10)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:683:14)
+    at Request.transition (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:22:10)
+    at AcceptorStateMachine.runTo (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:14:12)
+    at C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:26:10
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:38:9)
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:685:12)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:116:18)
+    at callNextListener (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:96:12)
+    at IncomingMessage.onEnd (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\event_listeners.js:307:13)
+    at IncomingMessage.emit (events.js:215:7)
+    at IncomingMessage.EventEmitter.emit (domain.js:475:20)
+    at endReadableNT (_stream_readable.js:1184:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21) {
+  message: 'Request has invalid image format',
+  code: 'InvalidImageFormatException',
+  time: 2020-03-05T12:25:51.341Z,
+  requestId: '1d6ac695-3bb4-4d81-9e77-e8fe1c8f4f67',
+  statusCode: 400,
+  retryable: false,
+  retryDelay: 97.93558524871908
+} InvalidImageFormatException: Request has invalid image format
+    at Request.extractError (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\protocol\json.js:51:27)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:106:20)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:78:10)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:683:14)
+    at Request.transition (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:22:10)
+    at AcceptorStateMachine.runTo (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:14:12)
+    at C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:26:10
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:38:9)
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:685:12)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:116:18)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:78:10)
+    at Request.emit (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:683:14)
+    at Request.transition (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:22:10)
+    at AcceptorStateMachine.runTo (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:14:12)
+    at C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\state_machine.js:26:10
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:38:9)
+    at Request.<anonymous> (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\request.js:685:12)
+    at Request.callListeners (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:116:18)
+    at callNextListener (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\sequential_executor.js:96:12)
+    at IncomingMessage.onEnd (C:\Users\Dardan.ILJAZI\Github\RIA_API\node_modules\aws-sdk\lib\event_listeners.js:307:13)
+    at IncomingMessage.emit (events.js:215:7)
+    at IncomingMessage.EventEmitter.emit (domain.js:475:20)
+    at endReadableNT (_stream_readable.js:1184:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+Terminer le programme de commandes (O/N)ÿ? 
