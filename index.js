@@ -6,7 +6,6 @@ const port = 2000;
 // Param: Bucket et name de l'image (get)
 app.get("/api/imagerecognition", (req, res) => {
   AWS.config.loadFromPath("./config.json");
-
   // Responses are in json format
   res.setHeader("Content-Type", "application/json");
 
@@ -44,11 +43,30 @@ app.get("/api/imagerecognition", (req, res) => {
   };
   var rekognition = new AWS.Rekognition();
   rekognition.detectLabels(params, function(err, data) {
-    if (err) console.log(err, err.stack);
+    if (err)
+    {
+      console.log(err, err.stack);
+    }
     // an error occurred
-    else res.send(JSON.stringify(data));
+    else
+    {
+      let jsonObject = parseJson(JSON.stringify(data));
+      let jsonStringified = stringifyJson(jsonObject);
+      res.send(jsonStringified);
+    }
   }); // successful response
 });
+
+
+function parseJson(jsonText)
+{
+  return JSON.parse(jsonText);
+}
+
+function stringifyJson(jsonObject)
+{
+  return JSON.stringify(jsonObject);
+}
 
 app.listen(port, () =>
   console.log(
