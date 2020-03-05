@@ -49,7 +49,7 @@ app.get("/api/imagerecognition", (req, res) => {
         JSON.stringify({ error: "Invalid request, fileName must be provided" })
       );
   }
-  let filepath = "./emiratesa380.jpg";
+  let filepath = "./test/emiratesa380.jpg";
   awsDetector.MakeAnalysisRequestLocal(filepath, 1, function(data) {
     console.log(data);
   });
