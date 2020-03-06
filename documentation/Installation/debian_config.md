@@ -1,74 +1,133 @@
-Installation commonInstance + Déploiement API-AWS
+## Installation 
+
+### Common Instance + Déploiement API-AWS
+
 1. Connexion SSH
+ 
+ ```bash
  ssh -i P:/.ssh/[SSH KEY] [IP]
-2. Update des sources
-sudo apt update
-3. Install Nginx
-sudo apt-get install nginx -> install nginx
-Vérifier l'installation
+ ```
+ 
+2. Mettre à jour les sources
 
-ps aux | grep nginx
-Vérifier que le port 80 est ouvert
+  ```bash
+  sudo apt update
+  ```
 
-netstat -tulpn |grep :80
-Pour vérifier si Nginx fonctionne correctement, ouvrez un navigateur et rentrez l'ip du serveur. vous devrez arriver sur la page d'accueil de Nginx
+3. Installer Nginx
 
-4. Run Nginx on startup
-sudo systemctl enable nginx
-5. Install NodeJS
-cd ~
--sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
-sudo bash nodesource_setup.sh
-sudo apt install nodejs
-sudo apt install build-essential
-6. Install PM2
-sudo npm install pm2@latest -g
-Launch PM2 on server boot
+  ```bash
+  sudo apt-get install nginx
+  ```
 
-pm2 startup systemd
-after the above command copy the last line outputed and run it
+  1. Vérifier l'installation
 
-example:
+      ```bash
+      ps aux | grep nginx
+      ```
 
-sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u [user] --hp /home/[user]
-save the config:
+  2. Vérifier que le port 80 est ouvert
 
-pm2 save
-start the service:
+      ```bash
+      netstat -tulpn | grep :80
+      ```
 
-sudo systemctl start pm2-sammy
-7. Configure Nginx as a reverse proxy for NodeJS
-Edit /etc/nginx/sites-availables/default or your site if you created a new one
+      Pour vérifier si Nginx fonctionne correctement, ouvrez un navigateur et entrez l'ip du serveur. Vous devriez arriver sur la page d'accueil de Nginx.
 
-server {
-...
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-...
-}
-replace 3000 by the port you are using in your NodeJS App
+4. Exécuter Nginx au lancement du serveur
 
-8. Deploy api-AWS
-Install git
+  ```bash
+  sudo systemctl enable nginx
+  ```
 
-apt install git 
-pull repo
+5. Installer NodeJS
 
-git clone https://github.com/DavidNiembro/RIA_API.git
-Install dependencies and build
+  ```bash
+  cd ~
+  -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+  sudo bash nodesource_setup.sh
+  sudo apt install nodejs
+  sudo apt install build-essential
+  ```
 
-npm install
-npm run build 
-Run your app
+6. Installer PM2
 
-pm2 start dis/index.js
-Check if everything is working , open a browser and go to the ip of your server
+  ```bash
+  sudo npm install pm2@latest -g
+  ```
 
-9. Enable HTTPS
-https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04
+7. Lancer PM2 au lancement du serveur
+
+   ```bash
+   pm2 startup systemd
+   ```
+
+   1. Après le lancement de cette commande copiez, collez la commande ci-dessous
+
+      ```bash
+      sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u [user] --hp /home/[user]
+      ```
+
+   2. Sauver la configuration
+
+      ```bash
+      pm2 save
+      ```
+
+   3. Lancer le service
+
+      ```bash
+      sudo systemctl start pm2-sammy
+      ```
+
+8. Configurer Nginx comme proxy inverse pour NodeJS
+
+   1. Editer `/etc/nginx/sites-availables/default` ou le fichier de configuration pour votre site si vous en avez un
+
+      ```bash
+      server {
+      ...
+          location / {
+              proxy_pass http://localhost:3000;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection 'upgrade';
+              proxy_set_header Host $host;
+              proxy_cache_bypass $http_upgrade;
+          }
+      ...
+      }
+      ```
+
+   2. Remplacer `3000` par le port que vous utilisez dans votre app NodeJS 
+
+9. Deployer `api-AWS`
+
+   1. Installer `git`
+
+      ```bash
+      apt install git 
+      ```
+
+   2. Récupérer le répertoire
+
+      ```bash
+      git clone https://github.com/DavidNiembro/RIA_API.git
+      ```
+
+   3. Installer toutes les dépendances pour `build` l'application
+
+      ```bash
+      npm install
+      npm run build 
+      ```
+
+10. Lancer votre application
+
+    ```bash
+    pm2 start dis/index.js
+    ```
+
+11. Contrôler que tout fonctionne normalement, ouvrez un navigateur et allez sur l'IP de votre serveur
+
+12. [Permettre le HTTPS](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04)
