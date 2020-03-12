@@ -7,26 +7,32 @@ class AwsLabelDetectorImpl {
     this.rekognition = new AWS.Rekognition();
   }
 
-  // MakeAnalysisRequestLocal(imageFilePath, maxLabels, callback) {
-  //     let image = fs.readFileSync(imageFilePath);
-  //     this.ApiRequestLocal(image, maxLabels, callback);
-  // }
-
-  MakeAnalysisRequest(imageURI, maxLabels, callback) {
-    this.ApiRequest(
-      "aws.rekognition.actualit.info",
-      imageURI,
-      maxLabels,
-      callback
-    );
+  MakeAnalysisRequest(imageURI, maxLabels, minConfidence, callback) {
+    if (!fs.existsSync(imageURI)) {
+      this.ApiRequest(
+        "aws.rekognition.actualit.info",
+        imageURI,
+        maxLabels,
+        minConfidence,
+        callback
+      );
+    } else {
+      this.ApiRequestLocal(
+        fs.readFileSync(imageURI),
+        maxLabels,
+        minConfidence,
+        callback
+      );
+    }
   }
 
-  ApiRequestLocal(image, maxLabels, callback) {
+  ApiRequestLocal(image, maxLabels, minConfidence, callback) {
     var params = {
       Image: {
         Bytes: image
       },
-      MaxLabels: maxLabels
+      MaxLabels: maxLabels,
+      MinConfidence: minConfidence
     };
     this.rekognition.detectLabels(params, function(err, data) {
       if (err) console.log(err, err.stack);
@@ -36,7 +42,7 @@ class AwsLabelDetectorImpl {
       }
     });
   }
-  ApiRequest(bucketName, dataObjectName, maxLabels, callback) {
+  ApiRequest(bucketName, dataObjectName, maxLabels, minConfidence, callback) {
     var params = {
       Image: {
         S3Object: {
@@ -44,7 +50,8 @@ class AwsLabelDetectorImpl {
           Name: dataObjectName
         }
       },
-      MaxLabels: maxLabels
+      MaxLabels: maxLabels,
+      MinConfidence: minConfidence
     };
     this.rekognition.detectLabels(params, function(err, data) {
       if (err) console.log(err, err.stack);
