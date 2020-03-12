@@ -6,6 +6,7 @@ Pour ce projet 2 environnements ont été utilisés:
 Les paquets à installer:
 - NodeJs v13.6.0
 - yarn v1.21.1
+- mocha v7.1.0
 
 Editeur de code :
 - VSCode v1.42.1
@@ -39,4 +40,17 @@ Les dépendences utilisées dans le projets
 Rendez-vous sur un navigateur avec le lien suivant 
 ```bash
 http://localhost:2000/api/imagerecognition?bucket=NOM_DU_BUCKET&filename=NOM_DE_L_IMAGE
+```
+
+## Tests
+Pour lancer les tests, installez mocha
+
+```bash
+npm install mocha 
+```
+
+Pour appeler les tests :
+
+```bash
+yarn test
 ```
