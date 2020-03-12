@@ -34,8 +34,18 @@ describe("UnitTestAwsBucketManager", function() {
     assert.equal(true, false);
     done();
   });
-  it("IsObjectExists_NominalCase_Success", function(done) {
-    assert.equal(true, false);
+  it("IsObjectExists_NominalCase_Success", async function(done) {
+    //given
+    let bucketName = "testBucket";
+    let bucketUrl = bucketName + "//" + domain;
+    await bucketManager.CreateObject(bucketUrl);
+
+    //when
+    actualResult = bucketManager.IsObjectExists(bucketUrl);
+
+    //then
+    assert.equal(actualResult, false);
+
     done();
   });
   it("IsObjectExists_ObjectNotExistBucket_Success", function(done) {
