@@ -5,7 +5,7 @@ var http = require("http");
 var assert = require("assert");
 var AwsLabelDetectorImpl = require("../src/models/AwsLabelDetectorImpl");
 
-describe("AWSRekognitionTests", function() {
+describe("UnitTestAwsLabelDetector", function() {
   let awsDetector = new AwsLabelDetectorImpl();
   // BUCKET TEST
   it("[BUCKET] should be equal to the rekognitionJsonResult.json file", function(done) {
