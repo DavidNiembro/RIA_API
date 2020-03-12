@@ -1,4 +1,5 @@
 var assert = require("assert");
+var AwsBucketManagerImpl = require("../src/models/AwsBucketManagerImpl");
 
 let bucketName = null;
 let domain = null;
@@ -16,7 +17,7 @@ describe("UnitTestAwsBucketManager", function() {
     imageName = "emiratesa380.jpg";
     fullPathToImage = "./test/" + imageName;
     prefixObjectDownloaded = "downloaded";
-    //bucketManager = new AwsBucketManagerImpl(bucketUrl);
+    bucketManager = new AwsBucketManagerImpl(bucketUrl);
   });
 
   // BUCKET TEST
