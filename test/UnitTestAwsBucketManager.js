@@ -39,7 +39,14 @@ describe("UnitTestAwsBucketManager", function() {
     done();
   });
   it("IsObjectExists_ObjectNotExistBucket_Success", function(done) {
-    assert.equal(true, false);
+    //given
+    let notExistingBucket = "notExistingBucket" + domain;
+
+    //when
+    let actualResult = bucketManager.IsObjectExists(notExistingBucket);
+
+    //then
+    assert.equal(actualResult, false);
     done();
   });
   it("IsObjectExists_ObjectNotExistFile_Success", function(done) {
