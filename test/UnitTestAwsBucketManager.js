@@ -6,4 +6,8 @@ describe("UnitTestAwsBucketManager", function() {
     assert.equal(true, true);
     done();
   });
+
+  afterEach(function() {
+    // runs after each test in this block
+  });
 });

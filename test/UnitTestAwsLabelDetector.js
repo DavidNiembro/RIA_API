@@ -6,7 +6,12 @@ var assert = require("assert");
 var AwsLabelDetectorImpl = require("../src/models/AwsLabelDetectorImpl");
 
 describe("UnitTestAwsLabelDetector", function() {
-  let awsDetector = new AwsLabelDetectorImpl();
+  let awsDetector = "";
+
+  beforeEach(function() {
+    awsDetector = new AwsLabelDetectorImpl();
+  });
+
   // BUCKET TEST
   it("[BUCKET] should be equal to the rekognitionJsonResult.json file", function(done) {
     awsDetector.MakeAnalysisRequest("emiratesa380.jpg", 1, 80, function(data) {
