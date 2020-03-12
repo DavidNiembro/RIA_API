@@ -23,31 +23,31 @@ describe("UnitTestAwsBucketManager", function() {
   // BUCKET TEST
 
   it("CreateObject_CreateNewBucket_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("CreateObject_CreateNewFile_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("DownloadObject_NominalCase_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("IsObjectExists_NominalCase_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("IsObjectExists_ObjectNotExistBucket_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("IsObjectExists_ObjectNotExistFile_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   it("RemoveObject_NominalCase_Success", function(done) {
-    assert.equal(true, true);
+    assert.equal(true, false);
     done();
   });
   afterEach(function() {});
