@@ -50,6 +50,7 @@ app.get("/api/imagerecognition", (req, res) => {
       );
   }
   let filepath = "./test/emiratesa380.jpg";
+
   awsDetector.MakeAnalysisRequestLocal(filepath, 1, function(data) {
     console.log(data);
   });
