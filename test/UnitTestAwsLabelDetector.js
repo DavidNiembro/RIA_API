@@ -20,7 +20,7 @@ describe("UnitTestAwsLabelDetector", function() {
     });
   });
 
-  //BUCKET TEST
+  //LOCAL TEST
   it("[LOCAL] should be equal to the rekognitionJsonResult.json file", function(done) {
     awsDetector.MakeAnalysisRequest("./test/emiratesa380.jpg", 1, 80, function(
       data
