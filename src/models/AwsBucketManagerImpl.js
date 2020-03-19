@@ -80,11 +80,7 @@ class AwsBucketManagerImpl {
         if (err) {
           reject(false);
         } else {
-          resolve(
-            data.Buckets.some(
-              bucket => bucket.Name === "awsdevteam.actualit.info"
-            )
-          );
+          resolve(data.Buckets.some(bucket => bucket.Name === this.bucketUrl));
         }
       });
     }).catch(error => {
