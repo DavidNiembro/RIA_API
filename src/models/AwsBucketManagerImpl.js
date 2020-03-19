@@ -8,7 +8,7 @@ class AwsBucketManagerImpl {
    */
   constructor(bucketUrl) {
     // AWS.config.loadFromPath("./config.json");
-    this.bucketUrl = "awsdevteam.actualit.info"; // "aws.rekognition.actualit.info";
+    this.bucketUrl = bucketUrl; // "aws.rekognition.actualit.info";
 
     // Create the instance as in the doc (don't know  yet why apiVersion is set here):
     // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-creating-buckets.html
@@ -96,6 +96,14 @@ class AwsBucketManagerImpl {
 
   async DeleteBucket() {
     await this.EmptyBucket();
+    await this.client.deleteBucket({ Bucket: this.bucketUrl }, function(
+      err,
+      data
+    ) {
+      if (err) console.log(err, err.stack);
+      // an error occurred
+      else console.log(data); // successful response
+    });
   }
 
   async EmptyBucket() {

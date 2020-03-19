@@ -11,7 +11,8 @@ let bucketManager = null;
 
 describe("UnitTestAwsBucketManager", function() {
   beforeEach(function() {
-    bucketName = "awsdevteam";
+    bucketName = "testbucket";
+    //bucketName = "awsdevteam";
     domain = "actualit.info";
     bucketUrl = bucketName + "." + domain;
     imageName = "emiratesa380.jpg";
