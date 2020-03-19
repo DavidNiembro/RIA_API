@@ -24,8 +24,20 @@ describe("UnitTestAwsBucketManager", function() {
   // BUCKET TEST
 
   it("CreateObject_CreateNewBucket_Success", function(done) {
-    assert.equal(true, false);
-    done();
+    //given
+    // Assert.IsFalse(this.bucketManager.IsObjectExists(bucketUrl));
+    // bucketManager.IsObjectExists(bucketUrl);
+
+    //when
+    await bucketManager.CreateObject(bucketUrl);
+    
+    //then
+    // Assert.IsTrue(this.bucketManager.IsObjectExists(bucketUrl));
+
+    // actualResult.then(result => {
+    //   assert.equal(result, true);
+    //   done();
+    // });
   });
   it("CreateObject_CreateNewFile_Success", function(done) {
     assert.equal(true, false);
@@ -77,5 +89,17 @@ describe("UnitTestAwsBucketManager", function() {
     assert.equal(true, false);
     done();
   });
-  afterEach(function() {});
+  afterEach(function() {
+            //TODO remove all dev bucket
+    // let destinationFullPath = this.pathToTestFolder + "//" + this.prefixObjectDownloaded + "*";
+
+    // if (fs.existsSync(destinationFullPath)) {
+    //   fs.unlinkSync(destinationFullPath);
+    // }
+
+    // bucketManager = new AwsBucketManagerImpl(bucketUrl);
+    // if (bucketManager.IsObjectExists(bucketUrl)) {
+    //   bucketManager.RemoveObject(bucketUrl);
+    // }
+  });
 });

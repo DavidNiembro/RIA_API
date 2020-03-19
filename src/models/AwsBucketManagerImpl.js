@@ -27,7 +27,27 @@ class AwsBucketManagerImpl {
    * @param filePath
    * @constructor
    */
-  CreateObject(objectUrl, filePath = "") {}
+  async CreateObject(objectUrl, filePath = "") {
+    // if (!IsBucketExists(bucketUrl))
+    // {
+      await this.CreateBucket();
+    // }
+    // if (objectUrl != this.bucketUrl)
+    // {
+    //   await WriteObject(this.bucketUrl, objectUrl.Replace(this.bucketUrl, ""), filePath);
+    // }
+  }
+
+  async CreateBucket()
+  {
+    await this.client.createBucket({Bucket: this.bucketUrl}, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
+    })
+  }
 
   /**
    * Method that download the data object
