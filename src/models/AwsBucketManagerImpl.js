@@ -57,7 +57,12 @@ class AwsBucketManagerImpl {
    * @param objectUrl
    * @constructor
    */
-  RemoveObject(objectUrl) {}
+  async RemoveObject(objectUrl) {
+    //if (objectUrl == this.bucketUrl) {
+    await this.DeleteBucket();
+    //} else {
+    //}
+  }
 
   /**
    *
@@ -87,6 +92,30 @@ class AwsBucketManagerImpl {
       done();
     });
     return await promise;
+  }
+
+  async DeleteBucket() {
+    await this.EmptyBucket();
+  }
+
+  async EmptyBucket() {
+    await this.client.listObjects(
+      {
+        Bucket: this.bucketUrl
+      },
+      function(err, data) {
+        if (err) console.log(err, err.stack);
+        else {
+          if (data.Contents.length > 0) {
+            //TODO: map the content and use the delete function
+            // foreach(s3Object in objectListing.S3Objects);
+            // {
+            //   //await DeleteObject(s3Object.Key);
+            // }
+          }
+        }
+      }
+    );
   }
 }
 

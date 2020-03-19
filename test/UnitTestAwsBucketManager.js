@@ -11,8 +11,8 @@ let bucketManager = null;
 
 describe("UnitTestAwsBucketManager", function() {
   beforeEach(function() {
-    bucketName = "testbucket";
-    domain = "dev.actualit.info";
+    bucketName = "awsdevteam";
+    domain = "actualit.info";
     bucketUrl = bucketName + "." + domain;
     imageName = "emiratesa380.jpg";
     fullPathToImage = "./test/" + imageName;
@@ -63,7 +63,16 @@ describe("UnitTestAwsBucketManager", function() {
     assert.equal(true, false);
     done();
   });
-  it("RemoveObject_NominalCase_Success", function(done) {
+  it("RemoveObject_NominalCase_Success", async function(done) {
+    //given
+    //await bucketManager.CreateObject(this.bucketUrl);
+    //Assert.IsTrue(this.bucketManager.IsObjectExists(bucketUrl));
+
+    //when
+    await bucketManager.RemoveObject(bucketUrl);
+
+    //then
+    //Assert.IsFalse(this.bucketManager.IsObjectExists(bucketUrl));
     assert.equal(true, false);
     done();
   });
