@@ -30,7 +30,7 @@ class AwsBucketManagerImpl {
   async CreateObject(objectUrl, filePath = "") {
     // if (!IsBucketExists(bucketUrl))
     // {
-      await this.CreateBucket();
+    await this.CreateBucket();
     // }
     // if (objectUrl != this.bucketUrl)
     // {
@@ -38,15 +38,17 @@ class AwsBucketManagerImpl {
     // }
   }
 
-  async CreateBucket()
-  {
-    await this.client.createBucket({Bucket: this.bucketUrl}, function(err, data) {
+  async CreateBucket() {
+    await this.client.createBucket({ Bucket: this.bucketUrl }, function(
+      err,
+      data
+    ) {
       if (err) {
         console.log("Error", err);
       } else {
         console.log("Success", data);
       }
-    })
+    });
   }
 
   /**
@@ -63,13 +65,10 @@ class AwsBucketManagerImpl {
    * @param objectUrl
    * @constructor
    */
+
   async IsObjectExists(objectUrl) {
-    let answer = false;
-    let response = await this.IsBucketExists(this.bucketUrl);
-    if (response) {
-      answer = true;
-    }
-    return answer;
+    let test = await this.IsBucketExists(objectUrl);
+    return test;
   }
 
   /**
@@ -94,20 +93,17 @@ class AwsBucketManagerImpl {
    * This method checks if the current bucket exists
    * @constructor
    */
+
   async IsBucketExists(bucketUrl) {
-    let promise = new Promise((resolve, reject) => {
-      this.client.listBuckets((err, data) => {
-        if (err) {
-          reject(false);
-        } else {
-          resolve(data.Buckets.some(bucket => bucket.Name === this.bucketUrl));
-        }
-      });
-    }).catch(error => {
-      console.error(error, "Promise error");
-      done();
-    });
-    return await promise;
+    try {
+      await this.client.headBucket({ Bucket: bucketUrl }).promise();
+      return true;
+    } catch (err) {
+      if (err.statusCode >= 400 && err.statusCode < 500) {
+        return false;
+      }
+      throw err;
+    }
   }
 
   async DeleteBucket() {
