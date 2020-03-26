@@ -23,6 +23,7 @@ class AwsBucketManagerImpl {
       );
     }
   }
+
   async IsObjectExists(objectUrl) {
     if (await this.IsBucketExists(this.bucketUrl)) {
       if (objectUrl != this.bucketUrl) {
@@ -32,6 +33,7 @@ class AwsBucketManagerImpl {
     }
     return false;
   }
+
   async RemoveObject(objectUrl) {
     if (objectUrl == this.bucketUrl) {
       await this.DeleteBucket();
@@ -43,6 +45,7 @@ class AwsBucketManagerImpl {
   CreateBucket() {
     return this.client.createBucket({ Bucket: this.bucketUrl }).promise();
   }
+
   async DeleteBucket() {
     await this.EmptyBucket();
     return this.client.deleteBucket({ Bucket: this.bucketUrl }).promise();
@@ -60,6 +63,7 @@ class AwsBucketManagerImpl {
         }.bind(this)
       );
   }
+
   DeleteObject(key) {
     return this.client
       .deleteObject({
@@ -68,6 +72,7 @@ class AwsBucketManagerImpl {
       })
       .promise();
   }
+
   WriteObject(bucketName, keyName, filePath) {
     let fileBuffer = fs.readFileSync(filePath);
     return this.client
@@ -78,6 +83,7 @@ class AwsBucketManagerImpl {
       })
       .promise();
   }
+
   IsBucketExists(bucketUrl) {
     return this.client
       .headBucket({ Bucket: bucketUrl })
@@ -91,6 +97,7 @@ class AwsBucketManagerImpl {
         }
       );
   }
+  
   IsDataObjectExists(objectUrl) {
     return this.client
       .headObject({

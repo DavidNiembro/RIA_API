@@ -106,12 +106,9 @@ describe("UnitTestAwsBucketManager", function() {
     assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
   });
 
-  // afterEach(function() {
-  //   let bucketManager = new AwsBucketManagerImpl(bucketUrl);
-  //   if(await bucketManager.IsObjectExists(bucketUrl)){
-  //     console.log(1);
-  //   }else{
-  //     console.log(2);
-  //   }
-  // });
+  afterEach(async function() {
+    if (await bucketManager.IsObjectExists(bucketUrl)) {
+      await bucketManager.RemoveObject(bucketUrl);
+    }
+  });
 });
