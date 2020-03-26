@@ -28,27 +28,35 @@ class AwsBucketManagerImpl {
    * @constructor
    */
   async CreateObject(objectUrl, filePath = "") {
-    // if (!IsBucketExists(bucketUrl))
-    // {
-    await this.CreateBucket();
-    // }
-    // if (objectUrl != this.bucketUrl)
-    // {
-    //   await WriteObject(this.bucketUrl, objectUrl.Replace(this.bucketUrl, ""), filePath);
-    // }
+    return new Promise(resolve => {
+      this.CreateBucket(resolve);
+    });
   }
 
-  async CreateBucket() {
-    await this.client.createBucket({ Bucket: this.bucketUrl }, function(
-      err,
-      data
-    ) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data);
-      }
+  /**
+   * Method that checks if objectUrl is pointing to something valid (existing)
+   * @param objectUrl
+   * @constructor
+   */
+
+  async IsObjectExists(objectUrl) {
+    return new Promise(resolve => {
+      this.IsBucketExists(objectUrl, resolve);
     });
+  }
+
+  /**
+   * Remove the bucket or a file in the bucket
+   * @param objectUrl
+   * @constructor
+   */
+  async RemoveObject(objectUrl) {
+    //if (objectUrl == this.bucketUrl) {
+    return new Promise(resolve => {
+      this.DeleteBucket(resolve);
+    });
+    //} else {
+    //}
   }
 
   /**
@@ -61,29 +69,6 @@ class AwsBucketManagerImpl {
   DownloadObject(objectUrl, destinationUrl, update = false) {}
 
   /**
-   * Method that checks if objectUrl is pointing to something valid (existing)
-   * @param objectUrl
-   * @constructor
-   */
-
-  async IsObjectExists(objectUrl) {
-    let test = await this.IsBucketExists(objectUrl);
-    return test;
-  }
-
-  /**
-   * Remove the bucket or a file in the bucket
-   * @param objectUrl
-   * @constructor
-   */
-  async RemoveObject(objectUrl) {
-    //if (objectUrl == this.bucketUrl) {
-    await this.DeleteBucket();
-    //} else {
-    //}
-  }
-
-  /**
    *
    * Private methods
    *
@@ -94,28 +79,50 @@ class AwsBucketManagerImpl {
    * @constructor
    */
 
-  async IsBucketExists(bucketUrl) {
+  async IsBucketExists(bucketUrl, resolve) {
     try {
-      await this.client.headBucket({ Bucket: bucketUrl }).promise();
-      return true;
+      await this.client.headBucket({ Bucket: bucketUrl }, function(err, data) {
+        if (err) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      });
     } catch (err) {
-      if (err.statusCode >= 400 && err.statusCode < 500) {
-        return false;
-      }
-      throw err;
+      resolve(false);
     }
   }
 
-  async DeleteBucket() {
-    await this.EmptyBucket();
-    await this.client.deleteBucket({ Bucket: this.bucketUrl }, function(
-      err,
-      data
-    ) {
-      if (err) console.log(err, err.stack);
-      // an error occurred
-      else console.log(data); // successful response
-    });
+  async CreateBucket(resolve) {
+    try {
+      await this.client.createBucket({ Bucket: this.bucketUrl }, function(
+        err,
+        data
+      ) {
+        if (err) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      });
+    } catch (e) {
+      resolve(false);
+    }
+  }
+
+  async DeleteBucket(resolve) {
+    //await this.EmptyBucket();
+    try {
+      await this.client.deleteBucket({ Bucket: this.bucketUrl }, function(
+        err,
+        data
+      ) {
+        if (err) resolve(false);
+        else resolve(true);
+      });
+    } catch {
+      resolve(false);
+    }
   }
 
   async EmptyBucket() {

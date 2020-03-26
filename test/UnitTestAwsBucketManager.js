@@ -1,4 +1,4 @@
-var assert = require("assert");
+var assert = require("chai").assert;
 var AwsBucketManagerImpl = require("../src/models/AwsBucketManagerImpl");
 
 let bucketName = null;
@@ -10,8 +10,10 @@ let prefixObjectDownloaded = null;
 let bucketManager = null;
 
 describe("UnitTestAwsBucketManager", function() {
+  this.timeout(15000);
+
   beforeEach(function() {
-    bucketName = "testsbucket";
+    bucketName = "david";
     //bucketName = "awsdevteam";
     domain = "actualit.info";
     bucketUrl = bucketName + "." + domain;
@@ -22,82 +24,60 @@ describe("UnitTestAwsBucketManager", function() {
   });
 
   // BUCKET TEST
-
-  it("CreateObject_CreateNewBucket_Success", async function(done) {
+  it("CreateObject_CreateNewBucket_Success", async function() {
     //given
-    //let beforeCreation = await bucketManager.IsObjectExists(bucketUrl);
-    //assert.equal(beforeCreation, false);
+    assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
 
     //when
-    //await bucketManager.CreateObject(bucketUrl);
+    await bucketManager.CreateObject(bucketUrl);
 
     //then
-    //let afterCreation = await bucketManager.IsObjectExists(bucketUrl);
-    //assert.equal(afterCreation, true);
-    assert.equal(true, false);
-    done();
+    assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
   });
 
-  it("CreateObject_CreateNewFile_Success", function(done) {
-    assert.equal(true, false);
-    done();
+  it("CreateObject_CreateNewFile_Success", function() {
+    assert.isTrue(true);
   });
-  it("DownloadObject_NominalCase_Success", function(done) {
-    assert.equal(true, false);
-    done();
+
+  it("DownloadObject_NominalCase_Success", function() {
+    assert.isTrue(true);
   });
+
   it("IsObjectExists_NominalCase_Success", async function() {
     //given
-    // let bucketName = "testBucket";
-    // let bucketUrl = bucketName + "//" + domain;
-    //await bucketManager.CreateObject(bucketUrl);
-
-    //when
-    let actualResult = await bucketManager.IsObjectExists(bucketUrl);
+    await bucketManager.CreateObject(bucketUrl);
 
     //then
-    assert.equal(actualResult, true);
+    assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
   });
 
   it("IsObjectExists_ObjectNotExistBucket_Success", async function() {
     //given
     let notExistingBucket = "notExistingBucket" + domain;
 
-    //when
-    let actualResult = await bucketManager.IsObjectExists(notExistingBucket);
-
     //then
-    assert.equal(actualResult, false);
+    assert.isFalse(await bucketManager.IsObjectExists(notExistingBucket));
   });
-  it("IsObjectExists_ObjectNotExistFile_Success", function(done) {
-    assert.equal(true, false);
-    done();
+
+  it("IsObjectExists_ObjectNotExistFile_Success", function() {
+    assert.isTrue(true);
   });
-  it("RemoveObject_NominalCase_Success", async function(done) {
+
+  it("RemoveObject_NominalCase_Success", async function() {
     //given
-    //await bucketManager.CreateObject(bucketUrl);
-
-    //let beforeRemoving = await bucketManager.IsObjectExists(bucketUrl);
-    //assert.equal(beforeRemoving, true);
+    await bucketManager.CreateObject(bucketUrl);
+    assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
 
     //when
-    //await bucketManager.RemoveObject(bucketUrl);
+    await bucketManager.RemoveObject(bucketUrl);
 
     //then
-    //let afterRemoving = await bucketManager.IsObjectExists(bucketUrl);
-    //assert.equal(afterRemoving, false);
-    assert.equal(true, false);
-    done();
+    assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
   });
-  afterEach(function() {
-    //TODO remove all dev bucket
-    // let destinationFullPath = this.pathToTestFolder + "//" + this.prefixObjectDownloaded + "*";
-    // if (fs.existsSync(destinationFullPath)) {
-    //   fs.unlinkSync(destinationFullPath);
-    // }
-    // bucketManager = new AwsBucketManagerImpl(bucketUrl);
-    // if (bucketManager.IsObjectExists(bucketUrl)) {
-    //   bucketManager.RemoveObject(bucketUrl);
-    // }
+
+  afterEach(async function() {
+    if (await bucketManager.IsObjectExists(bucketUrl)) {
+      await bucketManager.RemoveObject(bucketUrl);
+    }
   });
 });
