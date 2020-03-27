@@ -24,6 +24,18 @@ class AwsBucketManagerImpl {
     }
   }
 
+  async DownloadObject(objectUrl, destinationUri) {
+    return this.client
+      .getObject({
+        Bucket: this.bucketUrl,
+        Key: objectUrl.replace(this.bucketUrl + "/", "")
+      })
+      .promise()
+      .then(function(data) {
+        fs.writeFileSync(destinationUri, data.Body.toString());
+      });
+  }
+
   async IsObjectExists(objectUrl) {
     if (await this.IsBucketExists(this.bucketUrl)) {
       if (objectUrl != this.bucketUrl) {
@@ -97,7 +109,7 @@ class AwsBucketManagerImpl {
         }
       );
   }
-  
+
   IsDataObjectExists(objectUrl) {
     return this.client
       .headObject({

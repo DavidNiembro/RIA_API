@@ -1,4 +1,5 @@
 var assert = require("chai").assert;
+var fs = require("fs");
 var AwsBucketManagerImpl = require("../src/models/AwsBucketManagerImpl");
 
 let bucketName = null;
@@ -6,19 +7,18 @@ let domain = null;
 let bucketUrl = null;
 let imageName = null;
 let pathToTestFolder = null;
-let fullPathToImage = null;
 let prefixObjectDownloaded = null;
 let bucketManager = null;
 
 describe("UnitTestAwsBucketManager", function() {
-  this.timeout(15000);
-
+  this.timeout(0);
   beforeEach(function() {
     pathToTestFolder = "./test";
-    bucketName = "test.ria";
+    bucketName = "tests.ria";
     domain = "actualit.info";
     bucketUrl = bucketName + "." + domain;
     imageName = "emiratesa380.jpg";
+    prefixObjectDownloaded = "downloaded";
     bucketManager = new AwsBucketManagerImpl(bucketUrl);
   });
   it("CreateObject_CreateNewBucket_Success", async function() {
@@ -30,8 +30,6 @@ describe("UnitTestAwsBucketManager", function() {
 
     //then
     assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
-
-    //TODO: Remove when afterEach
   });
   it("CreateObject_CreateObjectWithExistingBucket_Success", async function() {
     //given
@@ -65,6 +63,23 @@ describe("UnitTestAwsBucketManager", function() {
 
     //then
     assert.isTrue(await bucketManager.IsObjectExists(objectUrl));
+  });
+  it("DownloadObject_NominalCase_Success", async function() {
+    //given
+    let objectUrl = bucketUrl + "/" + imageName;
+    let destinationFullPath =
+      pathToTestFolder + "/" + prefixObjectDownloaded + imageName;
+    await bucketManager.CreateObject(
+      objectUrl,
+      pathToTestFolder + "/" + imageName
+    );
+    assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
+
+    //when
+    await bucketManager.DownloadObject(objectUrl, destinationFullPath);
+
+    //then
+    assert.isTrue(fs.existsSync(destinationFullPath));
   });
   it("IsObjectExists_NominalCase_Success", async function() {
     //given
@@ -107,6 +122,13 @@ describe("UnitTestAwsBucketManager", function() {
   });
 
   afterEach(async function() {
+    let destinationFullPath =
+      pathToTestFolder + "/" + prefixObjectDownloaded + imageName;
+
+    if (fs.existsSync(destinationFullPath)) {
+      fs.unlinkSync(destinationFullPath);
+    }
+
     if (await bucketManager.IsObjectExists(bucketUrl)) {
       await bucketManager.RemoveObject(bucketUrl);
     }
