@@ -11,6 +11,12 @@ class AwsBucketManagerImpl {
     this.client = new AWS.S3({ apiVersion: "2006-03-01" });
   }
 
+  /**
+   * Public method to create an object
+   * @param objectUrl
+   * @param filePath
+   * @returns void
+   */
   async CreateObject(objectUrl, filePath = "") {
     if (!(await this.IsBucketExists(this.bucketUrl))) {
       await this.CreateBucket();
@@ -24,6 +30,12 @@ class AwsBucketManagerImpl {
     }
   }
 
+  /**
+   * Public method to download file on S3
+   * @param objectUrl
+   * @param destinationUri
+   * @returns Promise
+   */
   async DownloadObject(objectUrl, destinationUri) {
     return this.client
       .getObject({
@@ -36,16 +48,26 @@ class AwsBucketManagerImpl {
       });
   }
 
+  /**
+   * Public method to check if the object exist on S3
+   * @param objectUrl
+   * @returns bool
+   */
   async IsObjectExists(objectUrl) {
     if (await this.IsBucketExists(this.bucketUrl)) {
       if (objectUrl != this.bucketUrl) {
         return await this.IsDataObjectExists(objectUrl);
-      }
+      } //objectUrl != this.bucketUrl
       return true;
-    }
+    } //await this.IsBucketExists(this.bucketUrl)
     return false;
   }
 
+  /**
+   * Public method to remove an object
+   * @param objectUrl
+   * @returns void
+   */
   async RemoveObject(objectUrl) {
     if (objectUrl == this.bucketUrl) {
       await this.DeleteBucket();
@@ -54,15 +76,27 @@ class AwsBucketManagerImpl {
     }
   }
 
+  /**
+   * Private method to create an object
+   * @returns Promise
+   */
   CreateBucket() {
     return this.client.createBucket({ Bucket: this.bucketUrl }).promise();
   }
 
+  /**
+   * Private method to delete an object
+   * @returns Promise
+   */
   async DeleteBucket() {
     await this.EmptyBucket();
     return this.client.deleteBucket({ Bucket: this.bucketUrl }).promise();
   }
 
+  /**
+   * Private method to delete an object in a Bucket S3
+   * @returns Promise
+   */
   EmptyBucket() {
     return this.client
       .listObjects({ Bucket: this.bucketUrl })
@@ -76,6 +110,11 @@ class AwsBucketManagerImpl {
       );
   }
 
+  /**
+   * Private method to delete a Bucket S3
+   * @param key
+   * @returns Promise
+   */
   DeleteObject(key) {
     return this.client
       .deleteObject({
@@ -85,6 +124,13 @@ class AwsBucketManagerImpl {
       .promise();
   }
 
+  /**
+   * Private method to upload an object in a Bucket S3
+   * @param bucketName
+   * @param keyName
+   * @param filePath
+   * @returns Promise
+   */
   WriteObject(bucketName, keyName, filePath) {
     let fileBuffer = fs.readFileSync(filePath);
     return this.client
@@ -96,6 +142,11 @@ class AwsBucketManagerImpl {
       .promise();
   }
 
+  /**
+   * Private method to check if a bucket exist in S3
+   * @param bucketUrl
+   * @returns Bool
+   */
   IsBucketExists(bucketUrl) {
     return this.client
       .headBucket({ Bucket: bucketUrl })
@@ -110,6 +161,11 @@ class AwsBucketManagerImpl {
       );
   }
 
+  /**
+   * Private method to check if a file exist in a bucket s3
+   * @param objectUrl
+   * @returns Bool
+   */
   IsDataObjectExists(objectUrl) {
     return this.client
       .headObject({

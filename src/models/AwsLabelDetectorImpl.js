@@ -2,11 +2,23 @@ var AWS = require("aws-sdk");
 var fs = require("fs");
 
 class AwsLabelDetectorImpl {
+  /**
+   * Constructor that returns a new instance of rekognition class
+   * @param bucketUrl
+   */
   constructor() {
     AWS.config.loadFromPath("./config.json");
     this.rekognition = new AWS.Rekognition();
   }
 
+  /**
+   * Public method to make an analysis
+   * @param imageURI
+   * @param maxLabels
+   * @param minConfidence
+   * @param callback
+   * @returns void
+   */
   MakeAnalysisRequest(imageURI, maxLabels, minConfidence, callback) {
     if (!fs.existsSync(imageURI)) {
       this.ApiRequest(
@@ -26,6 +38,14 @@ class AwsLabelDetectorImpl {
     }
   }
 
+  /**
+   * Private method to make an analysis with local data
+   * @param image
+   * @param maxLabels
+   * @param minConfidence
+   * @param callback
+   * @returns void
+   */
   ApiRequestLocal(image, maxLabels, minConfidence, callback) {
     var params = {
       Image: {
@@ -37,11 +57,20 @@ class AwsLabelDetectorImpl {
     this.rekognition.detectLabels(params, function(err, data) {
       if (err) console.log(err, err.stack);
       else {
-        // console.log(data);
         callback(JSON.stringify(data));
       }
     });
   }
+
+  /**
+   * Private method to make an analysis with data in a bucket
+   * @param bucketName
+   * @param dataObjectName
+   * @param maxLabels
+   * @param minConfidence
+   * @param callback
+   * @returns json
+   */
   ApiRequest(bucketName, dataObjectName, maxLabels, minConfidence, callback) {
     var params = {
       Image: {
@@ -56,7 +85,6 @@ class AwsLabelDetectorImpl {
     this.rekognition.detectLabels(params, function(err, data) {
       if (err) console.log(err, err.stack);
       else {
-        // console.log(data);
         callback(JSON.stringify(data));
       }
     });
