@@ -153,12 +153,32 @@ describe("UnitTestAwsBucketManager", function() {
   });
 
   /**
-   * 
+   *
    */
-  it("RemoveObject_NominalCase_Success", async function() {
+  it("RemoveObject_EmptyBucket_Success", async function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
     assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
+    //when
+    await bucketManager.RemoveObject(bucketUrl);
+    //then
+    assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
+  });
+
+  /**
+   *
+   */
+  it("RemoveObject_NotEmptyBucket_Success", async function() {
+    //given
+    let fileName = imageName;
+    let objectUrl = bucketUrl + "/" + imageName;
+    await bucketManager.CreateObject(bucketUrl);
+    await bucketManager.CreateObject(
+      objectUrl,
+      pathToTestFolder + "/" + fileName
+    );
+    assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
+    assert.isTrue(await bucketManager.IsObjectExists(objectUrl));
     //when
     await bucketManager.RemoveObject(bucketUrl);
     //then
