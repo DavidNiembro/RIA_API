@@ -153,7 +153,8 @@ describe("UnitTestAwsBucketManager", function() {
   });
 
   /**
-   *
+   * This test method checks the method in charge of removing an existing object
+   * Case : empty bucket
    */
   it("RemoveObject_EmptyBucket_Success", async function() {
     //given
@@ -166,7 +167,8 @@ describe("UnitTestAwsBucketManager", function() {
   });
 
   /**
-   *
+   * This test method checks the method in charge of removing an existing object
+   * Case : bucket with content
    */
   it("RemoveObject_NotEmptyBucket_Success", async function() {
     //given
