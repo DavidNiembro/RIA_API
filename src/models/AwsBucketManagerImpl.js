@@ -1,10 +1,13 @@
 var AWS = require("aws-sdk");
 var fs = require("fs");
 
+/**
+ * This class is designed to manage an AWS S3 object
+ */
 class AwsBucketManagerImpl {
   /**
    * Constructor that returns a new instance of BucketManagerImpl class
-   * @param bucketUrl
+   * @param {String} bucketUrl
    */
   constructor(bucketUrl) {
     this.bucketUrl = bucketUrl;
@@ -13,14 +16,17 @@ class AwsBucketManagerImpl {
 
   /**
    * Public method to create an object
-   * @param objectUrl
-   * @param filePath
-   * @returns void
+   * @param {String} objectUrl Url for the object
+   * @param {String} filePath
+   * @returns {undefined} nothing
    */
   async CreateObject(objectUrl, filePath = "") {
+    // Does the bucket exists 
     if (!(await this.IsBucketExists(this.bucketUrl))) {
       await this.CreateBucket();
     }
+
+    // Does the objectUrl is a bucket
     if (objectUrl != this.bucketUrl) {
       await this.WriteObject(
         this.bucketUrl,
@@ -31,10 +37,10 @@ class AwsBucketManagerImpl {
   }
 
   /**
-   * Public method to download file on S3
-   * @param objectUrl
-   * @param destinationUri
-   * @returns Promise
+   * Public method to download a file on S3
+   * @param {String} objectUrl Url for the object
+   * @param {String} destinationUri
+   * @returns {Promise} Promise
    */
   async DownloadObject(objectUrl, destinationUri) {
     return this.client
@@ -44,14 +50,15 @@ class AwsBucketManagerImpl {
       })
       .promise()
       .then(function(data) {
+        // Create a local file with data
         fs.writeFileSync(destinationUri, data.Body.toString());
       });
   }
 
   /**
    * Public method to check if the object exist on S3
-   * @param objectUrl
-   * @returns bool
+   * @param {String} objectUrl Url for the object
+   * @returns {Bool} bool
    */
   async IsObjectExists(objectUrl) {
     if (await this.IsBucketExists(this.bucketUrl)) {
@@ -65,8 +72,8 @@ class AwsBucketManagerImpl {
 
   /**
    * Public method to remove an object
-   * @param objectUrl
-   * @returns void
+   * @param {String} objectUrl Url for the object
+   * @returns {undefined} nothing
    */
   async RemoveObject(objectUrl) {
     if (objectUrl == this.bucketUrl) {
@@ -76,27 +83,18 @@ class AwsBucketManagerImpl {
     }
   }
 
-  /**
-   * Private method to create an object
-   * @returns Promise
-   */
+  // Private method to create an object
   CreateBucket() {
     return this.client.createBucket({ Bucket: this.bucketUrl }).promise();
   }
 
-  /**
-   * Private method to delete an object
-   * @returns Promise
-   */
+  // Private method to delete an object
   async DeleteBucket() {
     await this.EmptyBucket();
     return this.client.deleteBucket({ Bucket: this.bucketUrl }).promise();
   }
 
-  /**
-   * Private method to delete an object in a Bucket S3
-   * @returns Promise
-   */
+  // Private method to delete an object in a Bucket S3
   EmptyBucket() {
     return this.client
       .listObjects({ Bucket: this.bucketUrl })
@@ -110,11 +108,7 @@ class AwsBucketManagerImpl {
       );
   }
 
-  /**
-   * Private method to delete a Bucket S3
-   * @param key
-   * @returns Promise
-   */
+  // Private method to delete a Bucket S3
   DeleteObject(key) {
     return this.client
       .deleteObject({
@@ -124,14 +118,9 @@ class AwsBucketManagerImpl {
       .promise();
   }
 
-  /**
-   * Private method to upload an object in a Bucket S3
-   * @param bucketName
-   * @param keyName
-   * @param filePath
-   * @returns Promise
-   */
+  // Private method to upload an object in a Bucket S3
   WriteObject(bucketName, keyName, filePath) {
+    // Retrieve data from file 
     let fileBuffer = fs.readFileSync(filePath);
     return this.client
       .upload({
@@ -142,11 +131,7 @@ class AwsBucketManagerImpl {
       .promise();
   }
 
-  /**
-   * Private method to check if a bucket exist in S3
-   * @param bucketUrl
-   * @returns Bool
-   */
+  // Private method to check if a bucket exist in S3
   IsBucketExists(bucketUrl) {
     return this.client
       .headBucket({ Bucket: bucketUrl })
@@ -161,11 +146,7 @@ class AwsBucketManagerImpl {
       );
   }
 
-  /**
-   * Private method to check if a file exist in a bucket s3
-   * @param objectUrl
-   * @returns Bool
-   */
+  // Private method to check if a file exist in a bucket s3
   IsDataObjectExists(objectUrl) {
     return this.client
       .headObject({

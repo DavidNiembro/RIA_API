@@ -10,8 +10,15 @@ let pathToTestFolder = null;
 let prefixObjectDownloaded = null;
 let bucketManager = null;
 
+/**
+ * This test file is designed to confirm the AwsBucketManager class's behavior
+ */
 describe("UnitTestAwsBucketManager", function() {
   this.timeout(0);
+
+  /**
+   * This test method initializes the context before each test method run.
+   */
   beforeEach(function() {
     pathToTestFolder = "./test";
     bucketName = "tests.ria";
@@ -21,6 +28,11 @@ describe("UnitTestAwsBucketManager", function() {
     prefixObjectDownloaded = "downloaded";
     bucketManager = new AwsBucketManagerImpl(bucketUrl);
   });
+
+  /**
+   * This test method checks the method in charge of creating a new object
+   * We try to create a new bucket
+   */
   it("CreateObject_CreateNewBucket_Success", async function() {
     //given
     assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
@@ -31,6 +43,11 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
   });
+
+  /**
+   * This test method checks the method in charge of creating a new data object
+   * Note : the bucket exists
+   */
   it("CreateObject_CreateObjectWithExistingBucket_Success", async function() {
     //given
     let fileName = imageName;
@@ -48,6 +65,11 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isTrue(await bucketManager.IsObjectExists(objectUrl));
   });
+
+  /**
+   * This test method checks the method in charge of creating a new data object
+   * Note : the bucket doesn't exist
+   */
   it("CreateObject_CreateObjectBucketNotExist_Success", async function() {
     //given
     let fileName = imageName;
@@ -64,6 +86,10 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isTrue(await bucketManager.IsObjectExists(objectUrl));
   });
+
+  /**
+   * This test method checks the method in charge of uploading item in an existing bucket
+   */
   it("DownloadObject_NominalCase_Success", async function() {
     //given
     let objectUrl = bucketUrl + "/" + imageName;
@@ -81,6 +107,10 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isTrue(fs.existsSync(destinationFullPath));
   });
+
+  /**
+   * This test method checks the method in charge of testing the existence of an object
+   */
   it("IsObjectExists_NominalCase_Success", async function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
@@ -91,6 +121,11 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isTrue(actualResult);
   });
+
+  /**
+   * This test method checks the method in charge of testing the existence of an object
+   * When the object doesn't exist (object is the bucket)
+   */
   it("IsObjectExists_ObjectNotExistBucket_Success", async function() {
     //given
     let notExistingBucket = "notExistingBucket" + "." + domain;
@@ -99,6 +134,11 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isFalse(actualResult);
   });
+
+  /**
+   * This test method checks the method in charge of testing the existence of an object
+   * When the object doesn't exist (object is the file in an existing bucket)
+   */
   it("IsObjectExists_ObjectNotExistFile_Success", async function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
@@ -111,6 +151,10 @@ describe("UnitTestAwsBucketManager", function() {
     //then
     assert.isFalse(actualResult);
   });
+
+  /**
+   * 
+   */
   it("RemoveObject_NominalCase_Success", async function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
@@ -121,6 +165,9 @@ describe("UnitTestAwsBucketManager", function() {
     assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
   });
 
+  /**
+   * This test method cleans up the context after each test method run.
+   */
   afterEach(async function() {
     let destinationFullPath =
       pathToTestFolder + "/" + prefixObjectDownloaded + imageName;
