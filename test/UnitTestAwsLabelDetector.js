@@ -5,8 +5,13 @@ var http = require("http");
 var assert = require("assert");
 var AwsLabelDetectorImpl = require("../src/models/AwsLabelDetectorImpl");
 
-describe("AWSRekognitionTests", function() {
-  let awsDetector = new AwsLabelDetectorImpl();
+describe("UnitTestAwsLabelDetector", function() {
+  let awsDetector = "";
+
+  beforeEach(function() {
+    awsDetector = new AwsLabelDetectorImpl();
+  });
+
   // BUCKET TEST
   it("[BUCKET] should be equal to the rekognitionJsonResult.json file", function(done) {
     awsDetector.MakeAnalysisRequest("emiratesa380.jpg", 1, 80, function(data) {
@@ -15,7 +20,7 @@ describe("AWSRekognitionTests", function() {
     });
   });
 
-  //BUCKET TEST
+  //LOCAL TEST
   it("[LOCAL] should be equal to the rekognitionJsonResult.json file", function(done) {
     awsDetector.MakeAnalysisRequest("./test/emiratesa380.jpg", 1, 80, function(
       data
