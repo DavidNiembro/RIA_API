@@ -114,8 +114,8 @@ describe("UnitTestAwsBucketManager", function() {
   it("IsObjectExists_NominalCase_Success", async function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
+    
     //when
-
     let actualResult = await bucketManager.IsObjectExists(bucketUrl);
 
     //then
@@ -129,8 +129,10 @@ describe("UnitTestAwsBucketManager", function() {
   it("IsObjectExists_ObjectNotExistBucket_Success", async function() {
     //given
     let notExistingBucket = "notExistingBucket" + "." + domain;
+    
     //when
     let actualResult = await bucketManager.IsObjectExists(notExistingBucket);
+    
     //then
     assert.isFalse(actualResult);
   });
@@ -160,8 +162,10 @@ describe("UnitTestAwsBucketManager", function() {
     //given
     await bucketManager.CreateObject(bucketUrl);
     assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
+    
     //when
     await bucketManager.RemoveObject(bucketUrl);
+    
     //then
     assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
   });
@@ -181,8 +185,10 @@ describe("UnitTestAwsBucketManager", function() {
     );
     assert.isTrue(await bucketManager.IsObjectExists(bucketUrl));
     assert.isTrue(await bucketManager.IsObjectExists(objectUrl));
+    
     //when
     await bucketManager.RemoveObject(bucketUrl);
+    
     //then
     assert.isFalse(await bucketManager.IsObjectExists(bucketUrl));
   });
